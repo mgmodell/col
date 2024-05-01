@@ -1,4 +1,5 @@
 mod app;
+pub mod entities;
 
 use app::App;
 
