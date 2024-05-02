@@ -1,7 +1,9 @@
 use serde::{Deserialize, Serialize};
-use serde_json::{json, Result};
-//use crate::entities::user; // Add the missing user module
+use serde_json::Result;
 use rand::Rng;
+use std::collections::HashMap;
+use gloo_storage::LocalStorage;
+use gloo_storage::Storage;
 
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -38,7 +40,19 @@ impl User {
 
 }
 
-pub fn from_json(json: &str) -> Result<User> {
+pub fn user_from_json(json: &str) -> Result<User> {
     let u: User = serde_json::from_str(json)?;
     Ok(u)
+}
+
+pub fn users_from_local_storage() -> HashMap<u128, User> {
+    let users : HashMap<u128, User> = LocalStorage::get("users").unwrap_or_default();
+    users
+}
+
+pub fn save_user_to_local_storage(user: User) -> HashMap<u128, User>{
+    let mut users = users_from_local_storage();
+    users.insert(user.id, user);
+    LocalStorage::set("users", &users).unwrap();
+    users
 }

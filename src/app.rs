@@ -3,7 +3,8 @@ use web_sys::{HtmlInputElement, Event, EventTarget};
 use yew::prelude::*;
 use weblog::console_log;
 
-use crate::entities::user::{User, from_json };
+use crate::entities::user::{save_user_to_local_storage, user_from_json, User };
+use crate::user_components::UserList;
 //use serde_json::Result;
 
 #[function_component(App)]
@@ -26,8 +27,9 @@ pub fn app() -> Html {
                 match new_user_json {
                     Ok(json) => {
                         console_log!(format!( "(json): {}", json ) );
-                        let user_from_json = from_json(&json);
+                        let user_from_json = user_from_json(&json);
                         console_log!(format!( "(from): {:?}", user_from_json ) );
+                        save_user_to_local_storage(new_user);
                     },
                     Err(e) => {
                         console_log!(format!( "Error converting user to json: {}", e ) );
@@ -41,12 +43,12 @@ pub fn app() -> Html {
 
     html! {
         <main>
-            <img class="logo" src="https://yew.rs/img/logo.png" alt="Yew logo" />
-            <h1>{ "Hello World!" }</h1>
+            <h1>{ format!( "Hello {}!", username.clone() ) }</h1>
             <span class="subtitle">{ "from Yew with " }<i class="heart" /></span>
+            <UserList />
             <input type="text" value={username.clone()} onchange={username_change}/>
             <button >
-                {format!( "Generate cards for {}!", username.clone() )}
+                {"Generate my cards!"}
             </button>
             
         </main>
