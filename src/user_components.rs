@@ -1,14 +1,18 @@
-use crate::entities::user::{users_from_local_storage, User};
+use crate::entities::user::User;
+use std::collections::HashMap;
 use yew::prelude::*;
 
+#[derive(Properties, PartialEq)]
+pub struct UserListProps {
+    pub users: HashMap<u128, User>,
+}
 
 #[function_component(UserList)]
-pub fn user_list() -> Html {
-    let users = users_from_local_storage();
+pub fn user_list(props: &UserListProps) -> Html {
 
     html! {
             <ul>
-                { for users.iter().map(|(id, user)| html! {
+                { for props.users.iter().map(|(id, user)| html! {
                     <li key={id.clone()}>{ format!("{}: {}", id, user.name) }</li>
                 }) }
             </ul>

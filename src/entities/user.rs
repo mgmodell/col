@@ -6,7 +6,7 @@ use gloo_storage::LocalStorage;
 use gloo_storage::Storage;
 
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub struct User {
     pub id: u128,
     pub name: String,

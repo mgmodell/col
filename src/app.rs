@@ -3,7 +3,7 @@ use web_sys::{HtmlInputElement, Event, EventTarget};
 use yew::prelude::*;
 use weblog::console_log;
 
-use crate::entities::user::{save_user_to_local_storage, user_from_json, User };
+use crate::entities::user::{save_user_to_local_storage, user_from_json, users_from_local_storage, User };
 use crate::user_components::UserList;
 //use serde_json::Result;
 
@@ -45,7 +45,7 @@ pub fn app() -> Html {
         <main>
             <h1>{ format!( "Hello {}!", username.clone() ) }</h1>
             <span class="subtitle">{ "from Yew with " }<i class="heart" /></span>
-            <UserList />
+            <UserList users={users_from_local_storage( )} />
             <input type="text" value={username.clone()} onchange={username_change}/>
             <button >
                 {"Generate my cards!"}
